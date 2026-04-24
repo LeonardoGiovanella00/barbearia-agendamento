@@ -1,0 +1,14 @@
+# Arquivos do sistema
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+
+# Dependências (se usar Node futuramente)
+node_modules/
+
+# Variáveis de ambiente
+.env
+.env.local
