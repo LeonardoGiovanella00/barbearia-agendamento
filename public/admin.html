@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Admin — Painel de Agendamentos</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -13,84 +13,118 @@
   <!-- LOGIN OVERLAY -->
   <div class="login-overlay" id="login-overlay">
     <div class="login-box">
-      <div style="font-size:2.5rem; margin-bottom:1rem;">💈</div>
+      <div class="login-icon">💈</div>
       <h2 id="login-titulo">Painel Admin</h2>
-      <p>Digite a senha para acessar</p>
-      <input type="password" id="input-senha" class="input-glass" placeholder="Senha" onkeydown="if(event.key==='Enter') fazerLogin()" />
-      <div class="erro-login" id="erro-login">Senha incorreta.</div>
-      <button class="btn-login" onclick="fazerLogin()" style="margin-top:1rem;">Entrar</button>
+      <p>Digite a senha para acessar o painel</p>
+      <input type="password" id="input-senha" class="input-glass" placeholder="••••••••" onkeydown="if(event.key==='Enter') fazerLogin()" />
+      <div class="erro-login" id="erro-login">⚠️ Senha incorreta. Tente novamente.</div>
+      <button class="btn-login" onclick="fazerLogin()" style="margin-top:1rem;">Entrar no painel</button>
     </div>
   </div>
 
-  <!-- ADMIN PAGE -->
+  <!-- ADMIN WRAPPER -->
   <div id="admin-page" style="display:none;">
+    <div class="admin-wrapper">
 
-    <header class="admin-header">
-      <h1>💈 <span id="admin-titulo">Barbearia X</span> — Painel Admin</h1>
-      <span id="admin-subtitulo">Agendamentos</span>
-      <button onclick="sair()" style="background:none;border:1px solid rgba(255,255,255,0.1);color:var(--text-muted);font-family:Outfit,sans-serif;padding:0.4rem 1rem;border-radius:8px;cursor:pointer;font-size:0.85rem;">Sair</button>
-    </header>
+      <!-- SIDEBAR -->
+      <aside class="admin-sidebar">
+        <div class="sidebar-brand" id="admin-titulo">Barbearia X</div>
+        <div class="sidebar-sub">Painel Administrativo</div>
 
-    <div class="admin-body">
+        <nav class="sidebar-nav">
+          <a href="#" class="active">
+            <span>📅</span> Agendamentos
+          </a>
+          <a href="index.html" target="_blank">
+            <span>🌐</span> Ver site
+          </a>
+        </nav>
 
-      <!-- STATS -->
-      <div class="stats-grid" id="stats-grid">
-        <div class="stat-card">
-          <div class="stat-label">Agendamentos Hoje</div>
-          <div class="stat-value" id="stat-hoje">0</div>
+        <div class="sidebar-footer">
+          <button onclick="sair()">🚪 Sair da conta</button>
         </div>
-        <div class="stat-card">
-          <div class="stat-label">Total Geral</div>
-          <div class="stat-value" id="stat-total">0</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Faturamento Hoje</div>
-          <div class="stat-value" id="stat-fat">R$ 0</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Próximo Horário</div>
-          <div class="stat-value" id="stat-prox" style="font-size:1.2rem;">—</div>
-        </div>
-      </div>
+      </aside>
 
-      <!-- TOOLBAR -->
-      <div class="admin-toolbar">
-        <input type="date" id="filtro-data" class="input-glass" />
-        <select id="filtro-barbeiro" class="input-glass" style="max-width:200px;cursor:pointer;">
-          <option value="">Todos os barbeiros</option>
-        </select>
-        <button onclick="exportarCSV()" style="background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.3);color:var(--gold);font-family:Outfit,sans-serif;padding:0.6rem 1.2rem;border-radius:10px;cursor:pointer;font-size:0.85rem;font-weight:600;">📥 Exportar CSV</button>
-        <button onclick="limparTodos()" style="background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.2);color:#e74c3c;font-family:Outfit,sans-serif;padding:0.6rem 1.2rem;border-radius:10px;cursor:pointer;font-size:0.85rem;font-weight:600;">🗑️ Limpar Todos</button>
-      </div>
+      <!-- MAIN CONTENT -->
+      <main class="admin-main">
 
-      <!-- TABELA -->
-      <div class="tabela-wrap">
-        <table id="tabela-agendamentos">
-          <thead>
-            <tr>
-              <th>Cliente</th>
-              <th>WhatsApp</th>
-              <th>Serviço</th>
-              <th>Barbeiro</th>
-              <th>Data</th>
-              <th>Horário</th>
-              <th>Valor</th>
-              <th>Status</th>
-              <th>Ação</th>
-            </tr>
-          </thead>
-          <tbody id="tbody"></tbody>
-        </table>
-        <div class="empty-state" id="empty-state" style="display:none;">
-          <div class="empty-icon">📅</div>
-          <p>Nenhum agendamento encontrado.</p>
+        <!-- TOPBAR -->
+        <div class="admin-topbar">
+          <div>
+            <div class="admin-topbar-title" id="admin-subtitulo">Agendamentos</div>
+            <div class="admin-topbar-date" id="admin-data-hoje"></div>
+          </div>
+          <div style="display:flex;gap:0.8rem;align-items:center;">
+            <button onclick="exportarCSV()" style="background:rgba(212,169,83,0.12);border:1px solid rgba(212,169,83,0.3);color:var(--gold);font-family:Outfit,sans-serif;padding:0.5rem 1.1rem;border-radius:10px;cursor:pointer;font-size:0.82rem;font-weight:700;">📥 Exportar CSV</button>
+            <button onclick="limparTodos()" style="background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);color:#ef4444;font-family:Outfit,sans-serif;padding:0.5rem 1.1rem;border-radius:10px;cursor:pointer;font-size:0.82rem;font-weight:700;">🗑️ Limpar</button>
+          </div>
         </div>
-      </div>
 
+        <div class="admin-body">
+
+          <!-- STATS -->
+          <div class="stats-grid" id="stats-grid">
+            <div class="stat-card">
+              <div class="stat-label">Agendamentos Hoje</div>
+              <div class="stat-value" id="stat-hoje">0</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Total Geral</div>
+              <div class="stat-value" id="stat-total">0</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Faturamento Hoje</div>
+              <div class="stat-value" id="stat-fat">R$ 0</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Próximo Horário</div>
+              <div class="stat-value" id="stat-prox" style="font-size:1.4rem;">—</div>
+            </div>
+          </div>
+
+          <!-- TOOLBAR -->
+          <div class="admin-toolbar">
+            <input type="date" id="filtro-data" class="input-glass" />
+            <select id="filtro-barbeiro" class="input-glass" style="max-width:200px;cursor:pointer;">
+              <option value="">Todos os barbeiros</option>
+            </select>
+          </div>
+
+          <!-- TABELA -->
+          <div class="tabela-wrap">
+            <table id="tabela-agendamentos">
+              <thead>
+                <tr>
+                  <th>Cliente</th>
+                  <th>WhatsApp</th>
+                  <th>Serviço</th>
+                  <th>Barbeiro</th>
+                  <th>Data</th>
+                  <th>Horário</th>
+                  <th>Valor</th>
+                  <th>Status</th>
+                  <th>Ação</th>
+                </tr>
+              </thead>
+              <tbody id="tbody"></tbody>
+            </table>
+            <div class="empty-state" id="empty-state" style="display:none;">
+              <div class="empty-icon">📅</div>
+              <p>Nenhum agendamento encontrado.</p>
+            </div>
+          </div>
+
+        </div>
+      </main>
     </div>
   </div>
 
   <script src="config.js"></script>
   <script src="admin.js"></script>
+  <script>
+    // Atualiza data no topbar
+    const el = document.getElementById('admin-data-hoje');
+    if (el) el.textContent = new Date().toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+  </script>
 </body>
 </html>

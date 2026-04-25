@@ -36,9 +36,6 @@ function aplicarConfig() {
   document.documentElement.style.setProperty('--gold-dark', b.corSecundaria || '#a07830');
   document.documentElement.style.setProperty('--gold-glow', hexToRgba(b.corPrincipal || '#C9A84C', 0.25));
 
-  // Navbar
-  setText('nav-nome', b.nome);
-
   // Título da página
   document.title = `Agendamento Online — ${b.nome}`;
 
